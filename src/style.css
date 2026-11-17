@@ -133,7 +133,7 @@ h1, h2, h3, p { margin: 0; }
 .stops li::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 4px; background: var(--c, var(--accent)); opacity: .9; z-index: 0; margin-left: -2px; }
 .stops li:first-child::before { top: 50%; } .stops li:last-child::before { bottom: 50%; }
 .stops li.past::before { background: var(--line); opacity: 1; }
-.stops .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--card); border: 3.5px solid var(--c, var(--accent)); z-index: 1; flex: none; margin-left: 3px; }
+.stops .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--card); border: 3.5px solid var(--c, var(--accent)); z-index: 1; flex: none; margin-left: -1px; }
 .stops li.past .dot { border-color: var(--line); } .stops li.past { color: var(--muted); }
 .stops li.board .dot { background: var(--signal); border-color: var(--ink); transform: scale(1.35); } .stops li.board { font-weight: 800; }
 .stops li.end .dot { background: var(--c, var(--accent)); } .stops li.end { font-weight: 700; }
