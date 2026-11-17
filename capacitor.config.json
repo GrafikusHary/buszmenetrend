@@ -2,6 +2,7 @@
   "appId": "hu.nyirbusz.menetrend",
   "appName": "NyírBusz",
   "webDir": "dist",
+  "backgroundColor": "#0b5d4b",
   "android": { "allowMixedContent": false },
   "plugins": {
     "CapacitorHttp": { "enabled": false },
