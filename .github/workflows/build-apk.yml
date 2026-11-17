@@ -45,7 +45,7 @@ jobs:
           GTFS_HEADER: ${{ secrets.GTFS_HEADER }}      # opcionális, pl. "Authorization: Bearer ..."
         run: node scripts/update-gtfs.mjs
 
-      - name: Ütemezett futás: nincs új menetrend, nincs teendő
+      - name: "Ütemezett futás: nincs új menetrend, nincs teendő"
         if: github.event_name == 'schedule' && steps.gtfs.outputs.changed != 'true'
         run: echo "NO_BUILD=1" >> "$GITHUB_ENV"
 
