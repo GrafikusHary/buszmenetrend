@@ -1,0 +1,13 @@
+{
+  "builtAt": 1794907483169,
+  "demo": false,
+  "source": "file",
+  "sha256": "1bb9036ae3222a217e115bd58526a2e55c962e815b08e05d977d912f711ad49e",
+  "feedStart": 20261117,
+  "feedEnd": 20270215,
+  "version": "01738.20261117",
+  "publisher": "Delta Systems Kft.",
+  "stops": 501,
+  "routes": 65,
+  "trips": 1719
+}

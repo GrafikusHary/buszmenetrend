@@ -1,0 +1,7 @@
+{
+  "sourceUrl": "https://opendata.utas.hu/public-gtfs/volanbusz_gtfs.zip",
+  "agencyMatch": "Nyíregyháza",
+  "stripPrefix": "Nyíregyháza, ",
+  "appUpdateUrl": "",
+  "autoUpdateDays": 3
+}

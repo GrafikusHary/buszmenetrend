@@ -1,0 +1,102 @@
+name: APK építés
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      refresh_gtfs:
+        description: 'Menetrend (GTFS) frissítése építés előtt'
+        type: boolean
+        default: false
+  schedule:
+    # Hetente (hétfő 03:17 UTC) friss GTFS-t próbál letölteni, és ha változott, új APK-t épít.
+    - cron: '17 3 * * 1'
+
+permissions:
+  contents: write   # a Release-be feltöltéshez
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Függőségek
+        run: npm ci
+
+      - name: Menetrend frissítése (GTFS)
+        id: gtfs
+        if: github.event_name == 'schedule' || inputs.refresh_gtfs == true
+        env:
+          GTFS_URL: ${{ secrets.GTFS_URL }}            # opcionális: felülírja a config.json "sourceUrl"-jét
+          GTFS_HEADER: ${{ secrets.GTFS_HEADER }}      # opcionális, pl. "Authorization: Bearer ..."
+        run: node scripts/update-gtfs.mjs
+
+      - name: Ütemezett futás: nincs új menetrend, nincs teendő
+        if: github.event_name == 'schedule' && steps.gtfs.outputs.changed != 'true'
+        run: echo "NO_BUILD=1" >> "$GITHUB_ENV"
+
+      - name: Az app frissítési címe = a repó szűrt GTFS letöltése (nyilvános repónál működik)
+        if: env.NO_BUILD != '1'
+        run: |
+          node -e "const fs=require('fs');const p='public/data/config.json';const c=JSON.parse(fs.readFileSync(p));if(!c.appUpdateUrl){c.appUpdateUrl='https://github.com/${{ github.repository }}/releases/download/gtfs/gtfs.zip';fs.writeFileSync(p,JSON.stringify(c,null,2));}"
+
+      - name: Webes rész építése + Android szinkron
+        if: env.NO_BUILD != '1'
+        run: npm run build && npx cap sync android
+
+      - name: Debug APK építése
+        if: env.NO_BUILD != '1'
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: APK átnevezése
+        if: env.NO_BUILD != '1'
+        run: |
+          mkdir -p out
+          cp android/app/build/outputs/apk/debug/app-debug.apk "out/NyirBusz.apk"
+
+      - uses: actions/upload-artifact@v4
+        if: env.NO_BUILD != '1'
+        with:
+          name: NyirBusz-apk
+          path: out/NyirBusz.apk
+
+      - name: Frissített menetrend visszacommitolása
+        if: env.NO_BUILD != '1' && steps.gtfs.outputs.changed == 'true'
+        run: |
+          git config user.name "gtfs-bot"; git config user.email "gtfs-bot@users.noreply.github.com"
+          git add public/data
+          git commit -m "Menetrend (GTFS) frissítése" || true
+          git push || true
+
+      - name: Release (szűrt nyíregyházi GTFS az app-beli frissítéshez)
+        if: env.NO_BUILD != '1'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: gtfs
+          name: Nyíregyházi GTFS (az app frissítéséhez)
+          body: "Automatikusan szűrt nyíregyházi menetrend (GTFS). Az app ezt tölti le a frissítéskor."
+          files: public/data/gtfs.zip
+
+      - name: Release (legfrissebb APK)
+        if: env.NO_BUILD != '1'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Legfrissebb APK
+          body: "Automatikusan épített NyírBusz APK. Letöltés után telepítsd (Ismeretlen források engedélyezése szükséges)."
+          files: out/NyirBusz.apk

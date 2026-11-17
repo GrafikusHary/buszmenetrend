@@ -1,0 +1,29 @@
+{
+  "name": "nyirbusz",
+  "version": "1.0.0",
+  "description": "Nyíregyháza helyi autóbusz menetrend (GTFS)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "gtfs:update": "node scripts/update-gtfs.mjs",
+    "gtfs:demo": "node scripts/make-sample-gtfs.mjs",
+    "cap:sync": "vite build && cap sync android",
+    "test": "node scripts/test-engine.mjs"
+  },
+  "author": "Harsányi Zoltán",
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/app-launcher": "^8.0.1",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/geolocation": "^8.2.4",
+    "fflate": "^0.8.3",
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  },
+  "type": "module"
+}
