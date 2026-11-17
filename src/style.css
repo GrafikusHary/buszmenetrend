@@ -37,8 +37,8 @@ h1, h2, h3, p { margin: 0; }
 .sec { font-size: 12.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 700; margin: 22px 4px 8px; }
 
 /* alsó navigáció */
-#tabs { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--nav-h) + var(--sab)); z-index: 20; display: grid; grid-template-columns: repeat(4, 1fr);
-  background: var(--card); border-radius: 0; box-shadow: 0 -2px 14px rgba(0, 0, 0, .10); padding: 6px 8px calc(6px + var(--sab)); border-top: 1px solid var(--line); }
+#tabs { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--nav-h) - 6px + var(--sab) * .4); z-index: 20; display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--card); border-radius: 0; box-shadow: 0 -2px 14px rgba(0, 0, 0, .10); padding: 5px 8px calc(3px + var(--sab) * .4); border-top: 1px solid var(--line); }
 .tiles-dark { filter: invert(1) hue-rotate(180deg) brightness(.9) contrast(.9); }
 #tabs button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 16px; color: var(--muted); font-size: 11.5px; font-weight: 600; text-align: center; }
 #tabs button.on { background: var(--accent); color: var(--accent-ink); }
@@ -88,7 +88,7 @@ h1, h2, h3, p { margin: 0; }
 .hero-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 12px; }
 .hero-facts dt { font-size: 11.5px; text-transform: uppercase; letter-spacing: .09em; color: #9fd6c0; font-weight: 700; }
 .hero-facts dd { margin: 2px 0 0; font-weight: 700; font-size: 15px; } .hero-facts dd.sub { font-weight: 500; font-size: 12.5px; color: #cfeade; } .hero-facts em { color: var(--signal); font-style: normal; font-weight: 700; }
-.minimap { height: 170px; border-radius: 16px; overflow: hidden; background: #0a2a22; } .minimap .leaflet-container { background: #0a2a22; }
+.minimap { position: relative; z-index: 0; isolation: isolate; height: 170px; border-radius: 16px; overflow: hidden; background: #0a2a22; } .minimap .leaflet-container { background: #0a2a22; }
 
 /* lista sorok */
 .row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 6px; border-top: 1px solid var(--line); }
@@ -152,7 +152,7 @@ h1, h2, h3, p { margin: 0; }
 .leaflet-tooltip.tip-board { background: var(--signal); color: #14231f; border: 0; font-weight: 800; box-shadow: 0 2px 8px rgba(0, 0, 0, .25); }
 .leaflet-tooltip.tip-board::before { border-top-color: var(--signal); }
 .leaflet-tooltip.tip-end { font-weight: 800; }
-.leaflet-container { font: inherit; }
+.leaflet-container { font: inherit; isolation: isolate; z-index: 0; }
 
 .page-top h1 { font-size: 21px; flex-wrap: nowrap; gap: 10px; } .page-top .ttl { font-size: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 
