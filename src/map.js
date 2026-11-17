@@ -13,13 +13,23 @@ export function makeMap(el, { interactive = true, center = NYIREGYHAZA, zoom = 1
     doubleClickZoom: interactive, boxZoom: false, keyboard: false, tap: false,
     preferCanvas: true,
   });
-  const url = dark()
-    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-    : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-  L.tileLayer(url, {
-    maxZoom: 19, subdomains: 'abcd',
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>',
+  // Alaptérkép: OpenStreetMap (kulcs nélkül elérhető). Ha a csempék nem töltődnek be, Esri térképre vált.
+  const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, className: dark() ? 'tiles-dark' : '',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> közreműködők',
   }).addTo(map);
+  let errs = 0, loaded = 0, switched = false;
+  osm.on('tileload', () => { loaded++; });
+  osm.on('tileerror', () => {
+    errs++;
+    if (!switched && errs >= 4 && loaded === 0) {
+      switched = true; map.removeLayer(osm);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19, className: dark() ? 'tiles-dark' : '',
+        attribution: 'Térkép: © Esri, HERE, Garmin, © OpenStreetMap közreműködők',
+      }).addTo(map);
+    }
+  });
   return map;
 }
 

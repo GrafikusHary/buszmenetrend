@@ -70,6 +70,6 @@ A főoldali sárga *Jegyvásárlás* kártya az Android csomagnév alapján ind�
 - `android/` – Capacitor Android projekt · `.github/workflows/build-apk.yml` – APK build
 
 ## Megjegyzések
-- A térképcsempék (CARTO/OpenStreetMap) internetet igényelnek; a menetrend offline is működik.
+- A térképcsempék (OpenStreetMap, tartalékként Esri) internetet igényelnek; a menetrend offline is működik.
 - A „perc múlva” a **menetrend szerinti** idő, nem valós idejű (GTFS-RT nincs).
 - Az APK debug-aláírású (saját használatra jó). Play Store-ra release aláírás kell.

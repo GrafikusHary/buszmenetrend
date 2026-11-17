@@ -520,7 +520,7 @@ function SettingsView() {
         <dl class="kv">
           <div><dt>Fejlesztő</dt><dd>Harsányi Zoltán</dd></div>
           <div><dt>Menetrendi adatok</dt><dd>MÁV Személyszállítási Zrt. (Volánbusz) nyílt adat, GTFS</dd></div>
-          <div><dt>Térkép</dt><dd>© OpenStreetMap közreműködők, © CARTO</dd></div>
+          <div><dt>Térkép</dt><dd>© OpenStreetMap közreműködők (Esri tartalék)</dd></div>
         </dl>
         <p class="hint">© ${new Date().getFullYear()} Harsányi Zoltán. A „perc múlva” értékek a menetrend szerinti időpontok, nem valós idejű adatok. A jegyvásárlás a Közlekedési Mobiljegy alkalmazásban történik.</p>
       </section>`;
